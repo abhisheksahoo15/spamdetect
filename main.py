@@ -3,18 +3,37 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import pickle
 import string
-from nltk.stem.porter import PorterStemmer
 
+# ---------------------
+# Custom Porter Stemmer (lightweight)
+# ---------------------
+class PorterStemmer:
+    def __init__(self):
+        pass
+
+    def stem(self, word):
+        suffixes = ['ing', 'ly', 'ed', 'ious', 'ies', 'ive', 'es', 's', 'ment']
+        for suffix in suffixes:
+            if word.endswith(suffix) and len(word) > len(suffix) + 1:
+                return word[:-len(suffix)]
+        return word
+
+# ---------------------
 # Load model and vectorizer
+# ---------------------
 model = pickle.load(open("model.pkl", "rb"))
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
-# Setup
+# ---------------------
+# App setup
+# ---------------------
 ps = PorterStemmer()
 templates = Jinja2Templates(directory="templates")
 app = FastAPI()
 
-# Manually defined stopwords (to avoid nltk stopwords dependency)
+# ---------------------
+# Stopwords Set (Manually defined)
+# ---------------------
 stopwords_set = {
     'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you',
     "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself',
@@ -42,25 +61,23 @@ stopwords_set = {
     "won't", 'wouldn', "wouldn't"
 }
 
+# ---------------------
+# Text Preprocessing Function
+# ---------------------
 def transform_text(text):
-    # Lowercase
     text = text.lower()
-
-    # Tokenization (basic)
     words = []
     for word in text.split():
         word = word.strip(string.punctuation)
         if word and word.isalnum():
             words.append(word)
-
-    # Remove stopwords
     words = [word for word in words if word not in stopwords_set]
-
-    # Stemming
     words = [ps.stem(word) for word in words]
-
     return " ".join(words)
 
+# ---------------------
+# Routes
+# ---------------------
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {
