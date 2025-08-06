@@ -1,105 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spam/Ham Classifier</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 90%;
-            width: 600px;
-        }
-
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        button {
-            background-color: #3498db;
-            color: #ffffff;
-            padding: 0.875rem 1.75rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        .result-box {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .result-spam {
-            background-color: #e74c3c;
-        }
-
-        .result-ham {
-            background-color: #2ecc71;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spam/Ham Classifier</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Spam/Ham Classifier</h1>
-        <p class="text-gray-600 mb-6">Enter a message below to find out if it's spam or ham.</p>
+<body class="bg-white text-gray-800 flex flex-col min-h-screen">
 
-        <form action="/predict" method="post">
-            <textarea name="message" placeholder="Enter your message here..." required>{{ message_text | default('') }}</textarea>
-            <button type="submit">Classify Message</button>
-        </form>
-
-        {% if result %}
-            <div class="result-box {% if 'SPAM' in result.upper() %}result-spam{% else %}result-ham{% endif %}">
-                {{ result }}
-            </div>
-        {% endif %}
+  <!-- NAVBAR -->
+  <nav class="bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 text-white py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold">Spam/Ham Classifier</a>
+      <a href="#footer" class="hover:underline">About</a>
     </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow flex items-center justify-center py-8 px-4">
+    <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
+      <h1 class="text-3xl font-semibold mb-4 text-center">Classify Your Message</h1>
+      <p class="mb-4 text-gray-600 text-center">Type or upload a screenshot. Minimum 10 words.</p>
+
+      <input type="file" accept="image/*" id="imageInput" class="mb-4 w-full" />
+      <form action="/predict" method="post" onsubmit="return validateAndStart(event)">
+        <textarea id="message" name="message" rows="5" placeholder="Enter or auto‑fill your message here..." required
+          class="w-full p-3 border border-gray-300 rounded mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400">{{ message_text | default('') }}</textarea>
+        <button type="submit" id="submitBtn"
+          class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold py-3 rounded hover:from-blue-500 hover:to-green-400 transition">
+          🚀 Classify Now
+        </button>
+      </form>
+
+      <div id="spinner" class="hidden text-center mt-4">
+        <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+        <p class="text-gray-500 mt-2">Analyzing, please wait...</p>
+      </div>
+
+      {% if result %}
+        <div class="mt-6 p-4 text-center font-bold rounded text-xl {% if 'SPAM' in result.upper() %}bg-red-200 text-red-800{% else %}bg-green-200 text-green-800{% endif %}">
+          {{ result }}
+        </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="bg-gray-100 text-center py-6">
+    <p class="text-gray-600">&copy; 2025 Spam Shield AI. Built with 💡 and FastAPI.</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const textarea = document.getElementById('message');
+    const spinner = document.getElementById('spinner');
+    const submitBtn = document.getElementById('submitBtn');
+
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files[0];
+      if (!file) return;
+      spinner.classList.remove('hidden');
+      Tesseract.recognize(file, 'eng', { logger: m => console.log(m) })
+        .then(({ data: { text } }) => {
+          textarea.value = text.trim();
+        })
+        .finally(() => spinner.classList.add('hidden'));
+    });
+
+    function validateAndStart(e) {
+      const msg = textarea.value.trim();
+      const words = msg.split(/\s+/);
+      if (words.length < 10) {
+        alert("Please enter at least 10 words.");
+        e.preventDefault();
+        return false;
+      }
+      spinner.classList.remove('hidden');
+      submitBtn.disabled = true;
+      return true;
+    }
+  </script>
+
 </body>
 </html>
-
-
