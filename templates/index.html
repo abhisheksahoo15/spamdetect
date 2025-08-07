@@ -2,90 +2,312 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spam/Ham Classifier</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
-</head>
-<body class="bg-white text-gray-800 flex flex-col min-h-screen">
+  <title>Spam Shield AI - GetSetAI Innovations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <style>
+    :root {
+      --primary: #0d47a1;
+      --accent: #00bcd4;
+      --bg-light: #f4f7fe;
+      --bg-dark: #0f172a;
+      --card-bg: #ffffff;
+      --text-dark: #1e1e1e;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
 
-  <!-- NAVBAR -->
-  <nav class="bg-gradient-to-r from-purple-500 via-blue-500 to-green-400 text-white py-4">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-      <a href="/" class="text-2xl font-bold">Spam/Ham Classifier</a>
-      <a href="#footer" class="hover:underline">About</a>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+    }
+
+    nav .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    nav .beta-tag {
+      background: #f44336;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      margin-right: 15px;
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    header {
+      text-align: center;
+      padding: 100px 20px 60px;
+    }
+
+    header h2 {
+      font-size: 2.8rem;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 15px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+
+    form {
+      text-align: center;
+      margin: 40px auto;
+      width: 90%;
+      max-width: 700px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      padding: 14px;
+      margin-top: 18px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .upload-label {
+      font-weight: 500;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 14px 32px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #1565c0;
+      transform: scale(1.05);
+    }
+
+    .result-card {
+      margin: 30px auto 0;
+      padding: 20px 30px;
+      font-size: 22px;
+      font-weight: 600;
+      border-radius: 12px;
+      max-width: 400px;
+      text-align: center;
+      background: #fff5f5;
+      border: 2px solid #ef4444;
+      color: #b91c1c;
+      box-shadow: 0 4px 14px rgba(255, 0, 0, 0.1);
+    }
+
+    .video-section {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    iframe {
+      margin-top: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .carousel {
+      width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 30px 0;
+      background: #f9fafb;
+      border-top: 1px solid #eee;
+    }
+
+    .carousel span {
+      display: inline-block;
+      margin: 0 20px;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    footer {
+      background: #f3f4f6;
+      color: #4b5563;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      margin-top: 60px;
+    }
+
+    #loader {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #loader div {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .not-spam {
+  background: rgb(240 253 244);
+  border: 2px solid #22c55e;
+  color: #15803d;
+}
+.spam {
+  background: #fff5f5;
+  border: 2px solid #ef4444;
+  color: #b91c1c;
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="loader"><div>Extracting text from image...</div></div>
+
+  <nav>
+    <h1>🛡 Spam Shield AI</h1>
+    <div class="nav-right">
+      <span class="beta-tag">BETA</span>
+      <a href="#">Docs</a>
+      <a href="#">Model</a>
+      <a href="#">Login</a>
     </div>
   </nav>
 
-  <!-- MAIN CONTENT -->
-  <main class="flex-grow flex items-center justify-center py-8 px-4">
-    <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
-      <h1 class="text-3xl font-semibold mb-4 text-center">Classify Your Message</h1>
-      <p class="mb-4 text-gray-600 text-center">Type or upload a screenshot. Minimum 10 words.</p>
+  <header>
+    <h2>Protect your digital life with <span style="color:#2563eb">AI</span>!</h2>
+    <p>We use AI to detect spam, scams, and frauds in real-time — save your data and privacy effortlessly.</p>
+  </header>
 
-      <input type="file" accept="image/*" id="imageInput" class="mb-4 w-full" />
-      <form action="/predict" method="post" onsubmit="return validateAndStart(event)">
-        <textarea id="message" name="message" rows="5" placeholder="Enter or auto‑fill your message here..." required
-          class="w-full p-3 border border-gray-300 rounded mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400">{{ message_text | default('') }}</textarea>
-        <button type="submit" id="submitBtn"
-          class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold py-3 rounded hover:from-blue-500 hover:to-green-400 transition">
-          🚀 Classify Now
-        </button>
-      </form>
+  <main>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+      <textarea name="text" placeholder="Paste your message here..." rows="5">{{ message_text or '' }}</textarea>
+      <label class="upload-label">Upload a screenshot (JPG/PNG):</label>
+      <input type="file" name="file" accept="image/*" />
+      <button type="submit">🛡 Analyze</button>
+    </form>
 
-      <div id="spinner" class="hidden text-center mt-4">
-        <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor"
-            d="M4 12a8 8 0 018-8v8z"></path>
-        </svg>
-        <p class="text-gray-500 mt-2">Analyzing, please wait...</p>
-      </div>
+{% if prediction is not none %}
+  <div class="result-card {{ 'not-spam' if prediction == 0 else 'spam' }}">
+    {{ '✅ Not Spam!' if prediction == 0 else '🚨 Spam Detected!' }}
+  </div>
+{% endif %}
 
-      {% if result %}
-        <div class="mt-6 p-4 text-center font-bold rounded text-xl {% if 'SPAM' in result.upper() %}bg-red-200 text-red-800{% else %}bg-green-200 text-green-800{% endif %}">
-          {{ result }}
-        </div>
-      {% endif %}
-    </div>
+
+
   </main>
 
-  <!-- FOOTER -->
-  <footer id="footer" class="bg-gray-100 text-center py-6">
-    <p class="text-gray-600">&copy; 2025 Spam Shield AI. Built with 💡 and FastAPI.</p>
+  <section class="video-section">
+    <h2>📽️ Watch How It Works</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+  </section>
+
+  <div class="carousel">
+    <span>⚡ Real-time Detection</span>
+    <span>🧠 OCR Image Scanning</span>
+    <span>🔐 Safe and Secure</span>
+    <span>🛡 Spam Prevention Layer</span>
+    <span>💬 Natural Language Processing</span>
+  </div>
+
+  <footer>
+    <div style="padding: 30px; background: linear-gradient(90deg, #0d47a1, #00bcd4); color: white;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 10px;">🚀 Spam Shield AI</h3>
+      <p>Keeping your inbox clean and safe using the power of AI and OCR.</p>
+      <div style="margin-top: 10px;">
+        <a href="#" style="color: #fff; margin: 0 10px; text-decoration: underline;">Docs</a>
+        <a href="#" style="color: #fff; margin: 0 10px; text-decoration: underline;">Privacy</a>
+        <a href="#" style="color: #fff; margin: 0 10px; text-decoration: underline;">Contact</a>
+      </div>
+      <p style="margin-top: 15px; font-size: 0.9rem;">&copy; 2025 GetSetAI Innovations — Made with ❤️ in India</p>
+    </div>
   </footer>
 
-  <!-- SCRIPTS -->
   <script>
-    const imageInput = document.getElementById('imageInput');
-    const textarea = document.getElementById('message');
-    const spinner = document.getElementById('spinner');
-    const submitBtn = document.getElementById('submitBtn');
+    const fileInput = document.querySelector('input[type="file"]');
+    const textArea = document.querySelector('textarea');
+    const loader = document.getElementById('loader');
 
-    imageInput.addEventListener('change', () => {
-      const file = imageInput.files[0];
-      if (!file) return;
-      spinner.classList.remove('hidden');
-      Tesseract.recognize(file, 'eng', { logger: m => console.log(m) })
-        .then(({ data: { text } }) => {
-          textarea.value = text.trim();
-        })
-        .finally(() => spinner.classList.add('hidden'));
-    });
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      if (file && file.type.startsWith("image/")) {
+        loader.style.display = 'flex';
 
-    function validateAndStart(e) {
-      const msg = textarea.value.trim();
-      const words = msg.split(/\s+/);
-      if (words.length < 10) {
-        alert("Please enter at least 10 words.");
-        e.preventDefault();
-        return false;
+        try {
+          const result = await Tesseract.recognize(file, 'eng');
+          const extractedText = result.data.text.trim();
+          textArea.value = extractedText || "[No text detected]";
+        } catch (error) {
+          console.error("OCR Error:", error);
+          textArea.value = "[Error extracting text]";
+        }
+
+        loader.style.display = 'none';
       }
-      spinner.classList.remove('hidden');
-      submitBtn.disabled = true;
-      return true;
-    }
+    });
   </script>
-
 </body>
 </html>
