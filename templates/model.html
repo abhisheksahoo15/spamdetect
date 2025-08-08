@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Model Download Instructions</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #ededed;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup {
+            background-color: #252526;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        pre {
+            background-color: #1e1e1e;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            color: #d4d4d4;
+        }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        button {
+            background: #007acc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="popup">
+            <h2>📥 Download Our Model</h2>
+            <p>Copy and paste this Python code into your script to download the model and vectorizer directly from GitHub.</p>
+            <pre>
+<span class="keyword">import</span> requests
+
+<span class="comment"># Download model</span>
+model_url = <span class="string">"https://raw.githubusercontent.com/abhisheksahoo15/spamdetect/main/modelmnb.pkl"</span>
+model_response = requests.get(model_url)
+<span class="keyword">with</span> open(<span class="string">"modelmnb.pkl"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:
+    f.write(model_response.content)
+
+<span class="comment"># Download vectorizer</span>
+vectorizer_url = <span class="string">"https://raw.githubusercontent.com/abhisheksahoo15/spamdetect/main/vectorizer.pkl"</span>
+vectorizer_response = requests.get(vectorizer_url)
+<span class="keyword">with</span> open(<span class="string">"vectorizer.pkl"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:
+    f.write(vectorizer_response.content)
+
+print(<span class="string">"Download complete."</span>)
+            </pre>
+            <button onclick="copyCode()">📋 Copy Code</button>
+        </div>
+    </div>
+
+    <script>
+        function copyCode() {
+            const code = `import requests
+
+# Download model
+model_url = "https://raw.githubusercontent.com/abhisheksahoo15/spamdetect/main/modelmnb.pkl"
+model_response = requests.get(model_url)
+with open("modelmnb.pkl", "wb") as f:
+    f.write(model_response.content)
+
+# Download vectorizer
+vectorizer_url = "https://raw.githubusercontent.com/abhisheksahoo15/spamdetect/main/vectorizer.pkl"
+vectorizer_response = requests.get(vectorizer_url)
+with open("vectorizer.pkl", "wb") as f:
+    f.write(vectorizer_response.content)
+
+print("Download complete.")`;
+
+            navigator.clipboard.writeText(code);
+            alert("✅ Code copied to clipboard!");
+        }
+    </script>
+</body>
+</html>

@@ -107,9 +107,9 @@ async def predict(request: Request, text: str = Form(...)):
     })
 
 
-@app.get("/download-model", response_class=FileResponse)
-def download_model():
-    return FileResponse("modelmnb.pkl", filename="spam_shield_ai_model.pkl")
+@app.get("/download-model", response_class=HTMLResponse)
+async def about(request: Request):
+    return templates.TemplateResponse("model.html", {"request": request})
 
 
 @app.get("/about", response_class=HTMLResponse)
@@ -123,3 +123,8 @@ async def contact(request: Request):
 @app.get("/dataPrivacy", response_class=HTMLResponse)
 async def data_privacy(request: Request):
     return templates.TemplateResponse("dataPrivacy.html", {"request": request})
+
+
+@app.get("/model", response_class=HTMLResponse)
+async def data_privacy(request: Request):
+    return templates.TemplateResponse("tp.html", {"request": request})

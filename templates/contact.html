@@ -6,12 +6,57 @@
   <title>Contact — Spam Shield AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#0d47a1;--accent:#00bcd4;--bg:#f4f7fe;--card:#fff;--muted:#6b7280}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:#111}
-    nav{display:flex;justify-content:space-between;padding:16px 28px;background:var(--card);box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-    nav h1{font-family:Orbitron, sans-serif}
-    .nav-links a{margin-left:14px;text-decoration:none;color:var(--primary);font-weight:600}
+    :root {
+      --primary: #0d47a1;
+      --accent: #00bcd4;
+      --bg-light: #f4f7fe;
+      --card-bg: #ffffff;
+      --text-dark: #1e1e1e;
+      --muted: #6b7280;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg-light); color: var(--text-dark); }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 36px;
+      background: var(--card-bg, #fff);
+      box-shadow: 0 6px 18px rgba(10,10,20,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    nav h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      margin-left: auto;
+      z-index: 1001;
+    }
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+    }
+    .nav-links a {
+      color: var(--primary, #0d47a1);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s;
+      padding: 8px 0;
+    }
+    .nav-links a:hover {
+      color: var(--accent, #00bcd4);
+    }
     .container{max-width:1000px;margin:36px auto;padding:0 18px}
 
     .contact-grid{display:grid;grid-template-columns:1fr 420px;gap:24px}
@@ -28,12 +73,52 @@
     footer{margin-top:26px;padding:20px;background:linear-gradient(90deg,#0d47a1,#00bcd4);color:white;border-radius:10px;text-align:center}
 
     @media(max-width:920px){.contact-grid{grid-template-columns:1fr}.container{padding:0 12px}}
+    @media (max-width: 600px) {
+      .menu-toggle {
+        display: block;
+      }
+      nav {
+        position: relative;
+      }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        background: var(--card-bg, #fff);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 0 0 10px 0;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        transition: max-height 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+        z-index: 1000;
+        margin-top: 0;
+      }
+      .nav-links.show {
+        max-height: 300px;
+        opacity: 1;
+        padding: 10px 0 10px 0;
+      }
+      .nav-links a {
+        margin: 12px 0 0 18px;
+        font-size: 1.05rem;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <nav>
     <h1>🛡 Spam Shield AI</h1>
-    <div class="nav-links">
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+    <div class="nav-links" id="navMenu">
       <a href="/">Home</a>
       <a href="/about">About</a>
       <a href="/download-model">Model</a>
@@ -100,6 +185,41 @@
         alert('Please fill name, email and message before sending.');
       }
       // Server-side should validate and handle spam/ratelimit.
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const menuToggle = document.getElementById("menuToggle");
+      const navMenu = document.getElementById("navMenu");
+      const navLinks = navMenu.querySelectorAll("a");
+
+      function closeMenu() {
+        navMenu.classList.remove("show");
+      }
+
+      menuToggle.addEventListener("click", function (e) {
+        navMenu.classList.toggle("show");
+        e.stopPropagation();
+      });
+
+      navLinks.forEach(link => {
+        link.addEventListener("click", function () {
+          if (window.innerWidth <= 600) closeMenu();
+        });
+      });
+
+      document.addEventListener("click", function (e) {
+        if (window.innerWidth <= 600 && navMenu.classList.contains("show")) {
+          if (!navMenu.contains(e.target) && e.target !== menuToggle) {
+            closeMenu();
+          }
+        }
+      });
+
+      window.addEventListener("resize", function () {
+        if (window.innerWidth > 600) {
+          navMenu.classList.remove("show");
+        }
+      });
     });
   </script>
 </body>
