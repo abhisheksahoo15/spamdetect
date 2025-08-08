@@ -32,85 +32,93 @@
       color: var(--text-dark);
     }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      flex-wrap: wrap;
-    }
 
-    nav h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      white-space: nowrap;
-    }
+nav {
+  display: flex;
+  justify-content: space-between; /* Logo left, menu toggle right */
+  align-items: center;
+  padding: 20px 40px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  flex-wrap: nowrap; /* Prevents logo and hamburger from stacking */
+}
 
-    .menu-toggle {
-      display: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
+nav h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  white-space: nowrap;
+  margin: 0;
+}
 
-    nav .nav-right {
-      display: flex;
-      align-items: center;
-      transition: max-height 0.3s ease;
-    }
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-left: auto; /* Pushes menu button to far right */
+}
 
-    nav .beta-tag {
-      background: #f44336;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      margin-right: 15px;
-    }
+nav .nav-right {
+  display: flex;
+  align-items: center;
+  transition: max-height 0.3s ease;
+}
 
-    nav a {
-      color: var(--primary);
-      text-decoration: none;
-      margin-left: 25px;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: color 0.3s;
-    }
+nav .beta-tag {
+  background: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  margin-right: 15px;
+}
 
-    nav a:hover {
-      color: var(--accent);
-    }
+nav a {
+  color: var(--primary);
+  text-decoration: none;
+  margin-left: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
 
-    @media (max-width: 900px) {
-      .menu-toggle {
-        display: block;
-      }
+nav a:hover {
+  color: var(--accent);
+}
 
-      .nav-right {
-        width: 100%;
-        flex-direction: column;
-        overflow: hidden;
-        max-height: 0;
-        background: var(--card-bg);
-      }
+@media (max-width: 600px) {
+  .menu-toggle {
+    display: block; /* Show hamburger on mobile */
+  }
 
-      .nav-right.show {
-        max-height: 300px;
-        padding-bottom: 15px;
-      }
+  .nav-right {
+    width: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    background: var(--card-bg);
+  }
 
-      nav a {
-        margin: 10px 0;
-      }
-    }
+  .nav-right.show {
+    max-height: 300px;
+    padding-bottom: 15px;
+  }
 
+  nav a {
+    margin: 10px 0;
+  }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* adjust spacing between logo and menu */
+}
     header {
       text-align: center;
       padding: 80px 20px 40px;
@@ -261,6 +269,31 @@
       -webkit-text-fill-color: transparent;
       color: transparent;
     }
+
+
+
+    /* alert section  */
+
+    .testing-phase {
+    display: inline-block;
+    padding: 8px 14px;
+    background: linear-gradient(90deg, #ffe6e6, #e6f0ff);
+    border-left: 4px solid #ff4d4d;
+    border-radius: 8px;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.phase-text {
+    color: #cc0000;
+}
+
+.beta-text {
+    color: #3c00ff;
+    font-weight: bold;
+}
+
   </style>
 </head>
 
@@ -271,33 +304,39 @@
     <h1>🛡 Spam Shield AI</h1>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     <div class="nav-right" id="navMenu">
-      <span class="beta-tag">BETA</span>
-      <a href="#">Docs</a>
-      <a href="#">Model</a>
-      <a href="#">Login</a>
+      <span class="beta-tag">Beta</span>
+      <a href="/about">About us</a>
+      <a href="/contact">Contact</a>
+      <a href="/download-model">Download Model</a>
     </div>
   </nav>
 
   <header>
-    <h2>Protect your digital life with <span style="color:#2563eb">AI</span>!</h2>
-    <p>Powered by the brains of<b> <span style="color:#2563eb">Natural Language Processing</span></b> + the instincts of<b> <span style="color:#ef016c">Supervised Machine Learning</span>,</b> <br>we hunt down spam, scams, and fraud before they even reach you <br><h3><span class="gradient-text"> ~ GetSetAi Innovations</span></h3></p>
+    <h2>Protect your Digital life with <span style="color:#2563eb">AI</span>!</h2>
+    <p>Powered by the brains of<b> <span style="color:#2563eb">Natural Language Processing</span></b> + the instincts of<b> <span style="color:#ef016c">Supervised Machine Learning</span>,</b> <br>we hunt down spam, scams, and fraud before they even reach you. <br><br> <h3>Product By <span class="gradient-text"> <a href="https://getsetai.in">~ GetSetAi Innovations</a></span></h3></p>
   </header>
 
   <main>
-    <form action="/predict" method="post" enctype="multipart/form-data">
-      <textarea name="text" placeholder="Paste your message here..." rows="5">{{ message_text or '' }}</textarea>
+    <form action="/predict" method="post" enctype="multipart/form-data" id="spamForm" onsubmit="return validateForm()">
+      <textarea name="text" id="text-input" placeholder="Paste your message here..." rows="5">{{ message_text or '' }}</textarea>
       <label class="upload-label">Upload a screenshot (JPG/PNG):</label>
-      <input type="file" name="file" accept="image/*" />
+      <input type="file" name="file"  id="file-input" accept="image/*" />
       <button type="submit" style="color: white; background-color: #007bff; border: none; padding: 8px 16px; border-radius: 4px;">
   🛡 Analyze
 </button>
-
-    <label class="upload-label"><b><span style="color:#ff0000">Testing phase <span style="color:#3c00ff">(Beta)</span> — results may include false positives or negatives.</span></b></label>
-    </form>
+<br>
+<label class="upload-label testing-phase">
+    <strong>
+        <span class="phase-text">
+            Testing phase <span class="beta-text">(Beta)</span> — results may include false positives or negatives.
+        </span>
+    </strong>
+</label>
+</form>
 
     {% if prediction is not none %}
-    <div class="result-card {{ 'not-spam' if prediction == 0 else 'spam' }}">
-      {{ '✅ Not Spam!' if prediction == 0 else '🚨 Spam Detected!' }}
+    <div id="prediction-result" class="result-card {{ 'not-spam' if prediction == 0 else 'spam' }}">
+      {{ '✅ Not Spam! Safe' if prediction == 0 else '🚨 Spam Detected! Be aware' }}
     </div>
     {% endif %}
   </main>
@@ -353,6 +392,41 @@
     document.getElementById('navMenu').classList.toggle('show');
   }
 </script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const textInput = document.getElementById("text-input");
+    const fileInput = document.getElementById("file-input");
+    const resultDiv = document.getElementById("prediction-result");
+
+    function clearResult() {
+        resultDiv.innerHTML = ""; // remove old result
+    }
+
+    // Clear when typing
+    textInput?.addEventListener("input", clearResult);
+
+    // Clear when selecting a new file
+    fileInput?.addEventListener("change", clearResult);
+});
+</script>
+
+
+
+<script>
+function validateForm() {
+  const text = document.getElementById("text-input").value.trim();
+  const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
+  
+  if (wordCount < 5) {
+    alert("So you are testing the app, Right? \u{1F602} Please enter at least 5 words before submitting.");
+    return false; // Stop form submission
+  }
+  return true; // Allow form submission
+}
+</script>
+
 
 </body>
 </html>

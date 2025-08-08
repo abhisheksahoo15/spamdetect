@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Spam Shield AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#0d47a1;--accent:#00bcd4;--bg:#f4f7fe;--card:#fff;--muted:#6b7280}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:#111}
+    nav{display:flex;justify-content:space-between;padding:16px 28px;background:var(--card);box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+    nav h1{font-family:Orbitron, sans-serif}
+    .nav-links a{margin-left:14px;text-decoration:none;color:var(--primary);font-weight:600}
+    .container{max-width:1000px;margin:36px auto;padding:0 18px}
+
+    .contact-grid{display:grid;grid-template-columns:1fr 420px;gap:24px}
+    .card{background:var(--card);padding:22px;border-radius:14px;border:1px solid rgba(13,71,161,0.04)}
+
+    form .row{display:flex;gap:12px;margin-bottom:12px}
+    input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid #e6edf6;font-size:1rem}
+    textarea{min-height:140px;resize:vertical}
+    button{background:var(--primary);color:white;padding:12px 18px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+    .info{color:var(--muted);font-size:0.95rem}
+
+    .contact-meta p{margin:8px 0}
+
+    footer{margin-top:26px;padding:20px;background:linear-gradient(90deg,#0d47a1,#00bcd4);color:white;border-radius:10px;text-align:center}
+
+    @media(max-width:920px){.contact-grid{grid-template-columns:1fr}.container{padding:0 12px}}
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>🛡 Spam Shield AI</h1>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/download-model">Model</a>
+      <a href="/contact">Contact</a>
+      <a href="/dataPrivacy">Data & Privacy</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h2 style="margin-bottom:12px">Get In Touch</h2>
+    <div class="contact-grid">
+      <section class="card">
+        <form id="contactForm" action="/contact" method="post">
+          <div class="row">
+            <input type="text" name="name" id="name" placeholder="Your name" required />
+            <input type="email" name="email" id="email" placeholder="Your email" required />
+          </div>
+
+          <div style="margin-bottom:12px">
+            <input type="text" name="subject" id="subject" placeholder="Subject" required />
+          </div>
+
+          <div style="margin-bottom:14px">
+            <textarea name="message" id="message" placeholder="Write your message..." required></textarea>
+          </div>
+
+          <div style="display:flex;gap:12px;align-items:center">
+            <button type="submit">✉️ Send Message</button>
+            <small class="info">We usually reply within 2 business days.</small>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card contact-meta">
+        <h3>Contact Info</h3>
+        <p><strong>Email:</strong> support@getsetai.in</p>
+        <p><strong>Office:</strong> Bangalore, India</p>
+        <p class="info">Prefer privacy? Use the contact form and check the Data & Privacy page to learn how we treat your data.</p>
+
+        <div style="margin-top:18px">
+          <h4>Follow us</h4>
+          <p style="margin-top:8px"><a href="#" style="color:var(--primary);text-decoration:none">Twitter</a> • <a href="#" style="color:var(--primary);text-decoration:none">LinkedIn</a></p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div style="max-width:900px;margin:0 auto">
+        <strong>Spam Shield AI</strong>
+        <div style="margin-top:8px">Protecting users with OCR + ML — built by GetSetAI Innovations</div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Basic client-side validation + friendly UX
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name || !email || !message){
+        e.preventDefault();
+        alert('Please fill name, email and message before sending.');
+      }
+      // Server-side should validate and handle spam/ratelimit.
+    });
+  </script>
+</body>
+</html>
+
+

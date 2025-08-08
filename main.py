@@ -1,4 +1,3 @@
-
 # backend/main.py
 
 from fastapi import FastAPI, Form, Request
@@ -7,6 +6,13 @@ from fastapi.templating import Jinja2Templates
 import pickle
 import string
 import os
+from fastapi.staticfiles import StaticFiles
+
+app = FastAPI()
+
+# Mount static files and templates
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 # ---------------------------
@@ -68,11 +74,6 @@ except Exception as e:
     model = None
     vectorizer = None
 
-# ---------------------------
-# FastAPI Setup
-# ---------------------------
-app = FastAPI()
-templates = Jinja2Templates(directory="templates")
 
 # ---------------------------
 # Routes
@@ -109,3 +110,16 @@ async def predict(request: Request, text: str = Form(...)):
 @app.get("/download-model", response_class=FileResponse)
 def download_model():
     return FileResponse("modelmnb.pkl", filename="spam_shield_ai_model.pkl")
+
+
+@app.get("/about", response_class=HTMLResponse)
+async def about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+
+@app.get("/contact", response_class=HTMLResponse)
+async def contact(request: Request):
+    return templates.TemplateResponse("contact.html", {"request": request})
+
+@app.get("/dataPrivacy", response_class=HTMLResponse)
+async def data_privacy(request: Request):
+    return templates.TemplateResponse("dataPrivacy.html", {"request": request})
