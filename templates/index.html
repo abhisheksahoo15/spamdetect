@@ -43,16 +43,27 @@
       position: sticky;
       top: 0;
       z-index: 999;
+      flex-wrap: wrap;
     }
 
     nav h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2rem;
+      white-space: nowrap;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
     }
 
     nav .nav-right {
       display: flex;
       align-items: center;
+      transition: max-height 0.3s ease;
     }
 
     nav .beta-tag {
@@ -77,20 +88,43 @@
       color: var(--accent);
     }
 
+    @media (max-width: 900px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-right {
+        width: 100%;
+        flex-direction: column;
+        overflow: hidden;
+        max-height: 0;
+        background: var(--card-bg);
+      }
+
+      .nav-right.show {
+        max-height: 300px;
+        padding-bottom: 15px;
+      }
+
+      nav a {
+        margin: 10px 0;
+      }
+    }
+
     header {
       text-align: center;
-      padding: 100px 20px 60px;
+      padding: 80px 20px 40px;
     }
 
     header h2 {
-      font-size: 2.8rem;
+      font-size: 2.4rem;
       font-family: 'Orbitron', sans-serif;
       margin-bottom: 15px;
     }
 
     header p {
       color: var(--text-muted);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     form {
@@ -126,7 +160,7 @@
     button {
       padding: 14px 32px;
       background: var(--primary);
-      color: white;
+      color: rgb(0, 110, 255);
       border: none;
       border-radius: 10px;
       font-size: 1rem;
@@ -136,7 +170,7 @@
     }
 
     button:hover {
-      background: #1565c0;
+      background: #024ea4;
       transform: scale(1.05);
     }
 
@@ -148,19 +182,29 @@
       border-radius: 12px;
       max-width: 400px;
       text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    }
+
+    .not-spam {
+      background: rgb(240 253 244);
+      border: 2px solid #22c55e;
+      color: #15803d;
+    }
+    .spam {
       background: #fff5f5;
       border: 2px solid #ef4444;
       color: #b91c1c;
-      box-shadow: 0 4px 14px rgba(255, 0, 0, 0.1);
     }
 
     .video-section {
       text-align: center;
       margin-top: 80px;
+      padding: 0 20px;
     }
 
     iframe {
       margin-top: 20px;
+      max-width: 100%;
       border-radius: 16px;
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
     }
@@ -172,6 +216,7 @@
       padding: 30px 0;
       background: #f9fafb;
       border-top: 1px solid #eee;
+      scroll-behavior: smooth;
     }
 
     .carousel span {
@@ -210,17 +255,12 @@
       color: #333;
     }
 
-    .not-spam {
-  background: rgb(240 253 244);
-  border: 2px solid #22c55e;
-  color: #15803d;
-}
-.spam {
-  background: #fff5f5;
-  border: 2px solid #ef4444;
-  color: #b91c1c;
-}
-
+    .gradient-text {
+      background: linear-gradient(to right, #00D2B4, #0096FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
   </style>
 </head>
 
@@ -229,7 +269,8 @@
 
   <nav>
     <h1>🛡 Spam Shield AI</h1>
-    <div class="nav-right">
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <div class="nav-right" id="navMenu">
       <span class="beta-tag">BETA</span>
       <a href="#">Docs</a>
       <a href="#">Model</a>
@@ -239,7 +280,7 @@
 
   <header>
     <h2>Protect your digital life with <span style="color:#2563eb">AI</span>!</h2>
-    <p>We use AI to detect spam, scams, and frauds in real-time — save your data and privacy effortlessly.</p>
+    <p>Powered by the brains of<b> <span style="color:#2563eb">Natural Language Processing</span></b> + the instincts of<b> <span style="color:#ef016c">Supervised Machine Learning</span>,</b> <br>we hunt down spam, scams, and fraud before they even reach you <br><h3><span class="gradient-text"> ~ GetSetAi Innovations</span></h3></p>
   </header>
 
   <main>
@@ -247,22 +288,23 @@
       <textarea name="text" placeholder="Paste your message here..." rows="5">{{ message_text or '' }}</textarea>
       <label class="upload-label">Upload a screenshot (JPG/PNG):</label>
       <input type="file" name="file" accept="image/*" />
-      <button type="submit">🛡 Analyze</button>
+      <button type="submit" style="color: white; background-color: #007bff; border: none; padding: 8px 16px; border-radius: 4px;">
+  🛡 Analyze
+</button>
+
+    <label class="upload-label"><b><span style="color:#ff0000">Testing phase <span style="color:#3c00ff">(Beta)</span> — results may include false positives or negatives.</span></b></label>
     </form>
 
-{% if prediction is not none %}
-  <div class="result-card {{ 'not-spam' if prediction == 0 else 'spam' }}">
-    {{ '✅ Not Spam!' if prediction == 0 else '🚨 Spam Detected!' }}
-  </div>
-{% endif %}
-
-
-
+    {% if prediction is not none %}
+    <div class="result-card {{ 'not-spam' if prediction == 0 else 'spam' }}">
+      {{ '✅ Not Spam!' if prediction == 0 else '🚨 Spam Detected!' }}
+    </div>
+    {% endif %}
   </main>
 
   <section class="video-section">
-    <h2>📽️ Watch How It Works</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+    <h2>🎩 Watch How It Works</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/getsetaiinovations" frameborder="0" allowfullscreen></iframe>
   </section>
 
   <div class="carousel">
@@ -282,32 +324,35 @@
         <a href="#" style="color: #fff; margin: 0 10px; text-decoration: underline;">Privacy</a>
         <a href="#" style="color: #fff; margin: 0 10px; text-decoration: underline;">Contact</a>
       </div>
-      <p style="margin-top: 15px; font-size: 0.9rem;">&copy; 2025 GetSetAI Innovations — Made with ❤️ in India</p>
+      <p style="margin-top: 15px; font-size: 0.9rem;">&copy; 2025 GetSetAI Innovations </p>
     </div>
   </footer>
 
-  <script>
-    const fileInput = document.querySelector('input[type="file"]');
-    const textArea = document.querySelector('textarea');
-    const loader = document.getElementById('loader');
+<script>
+  const fileInput = document.querySelector('input[type="file"]');
+  const textArea = document.querySelector('textarea');
+  const loader = document.getElementById('loader');
 
-    fileInput.addEventListener('change', async () => {
-      const file = fileInput.files[0];
-      if (file && file.type.startsWith("image/")) {
-        loader.style.display = 'flex';
-
-        try {
-          const result = await Tesseract.recognize(file, 'eng');
-          const extractedText = result.data.text.trim();
-          textArea.value = extractedText || "[No text detected]";
-        } catch (error) {
-          console.error("OCR Error:", error);
-          textArea.value = "[Error extracting text]";
-        }
-
-        loader.style.display = 'none';
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (file && file.type.startsWith("image/")) {
+      loader.style.display = 'flex';
+      try {
+        const result = await Tesseract.recognize(file, 'eng');
+        const extractedText = result.data.text.trim();
+        textArea.value = extractedText || "[No text detected]";
+      } catch (error) {
+        console.error("OCR Error:", error);
+        textArea.value = "[Error extracting text]";
       }
-    });
-  </script>
+      loader.style.display = 'none';
+    }
+  });
+
+  function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('show');
+  }
+</script>
+
 </body>
 </html>
