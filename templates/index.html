@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5N46Q9LPG5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5N46Q9LPG5');
+</script>
+  <link rel="icon" type="image/png" href="/static/images/icon.png">
   <meta charset="UTF-8" />
   <title>Spam Shield AI - GetSetAI Innovations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -318,8 +328,11 @@
   </h1>
   <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
   <div class="nav-links" id="navMenu">
+    
+    <a href="/download-model">Download Model</a>
+    
+    <a href="/docs">Use Manual</a>
     <a href="/about">About</a>
-    <a href="/download-model">Model</a>
     <a href="/contact">Contact</a>
     <a href="/dataPrivacy">Data & Privacy</a>
   </div>
@@ -330,11 +343,20 @@
   <header>
     <h2>Protect your Digital life with <span style="color:#2563eb">AI</span>!</h2>
     <p>Powered by the brains of<b> <span style="color:#2563eb">Natural Language Processing</span></b> + the instincts of<b> <span style="color:#ef016c">Supervised Machine Learning</span>,</b> <br>we hunt down spam, scams, and fraud before they even reach you. <br><br> <h3>Product By <span class="gradient-text"> <a href="https://getsetai.in">~ GetSetAi Innovations</a></span></h3></p>
+<br>
+<p>
+  <a href="/about" style="display: inline-block; padding: 10px 20px; background: linear-gradient(90deg, #ef016c, #ff7e00, #ef016c); border-radius: 30px; font-weight: bold; text-decoration: none; color: white; box-shadow: 0 0 10px rgba(239, 1, 108, 0.5), 0 0 20px rgba(255, 126, 0, 0.5); transition: all 0.3s ease;">
+    About Us
+  </a>
+</p>
+
+  
   </header>
+
 
   <main>
     <form action="/predict" method="post" enctype="multipart/form-data" id="spamForm" onsubmit="return validateForm()">
-      <textarea name="text" id="text-input" placeholder="Paste your message here..." rows="5">{{ message_text or '' }}</textarea>
+      <textarea name="text" id="text-input" placeholder="Paste your message here... or Uplod a Screenshot" rows="5">{{ message_text or '' }}</textarea>
       <label class="upload-label">Upload a screenshot (JPG/PNG):</label>
       <input type="file" name="file"  id="file-input" accept="image/*" />
       <button type="submit" style="color: white; background-color: #007bff; border: none; padding: 8px 16px; border-radius: 4px;">
@@ -359,7 +381,7 @@
 
   <section class="video-section">
     <h2>🎩 Watch How It Works</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/getsetaiinovations" frameborder="0" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://youtu.be/SEVZlUMDPw0" frameborder="0" allowfullscreen></iframe>
   </section>
 
   <div class="carousel">

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - Page Not Found</title>
+<style>
+:root{
+  --bg-light: #f0faff;
+  --card-bg: #ffffff;
+  --text-dark: #0f172a;
+  --muted: #6b7280;
+  --accent1: #007cf0; /* bright blue */
+  --accent2: #00df8f; /* teal green */
+  --glow: rgba(0,124,240,0.18);
+  --glass: rgba(255,255,255,0.6);
+}
+body{
+  font-family: 'Google Sans Code', Inter, system-ui, -apple-system, sans-serif;
+  background: linear-gradient(180deg, #e0f7ff 0%, var(--bg-light) 100%);
+  color:var(--text-dark);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  min-height:100vh;
+}
+.card{
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+  max-width: 500px;
+}
+.kicker{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent1));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:700;
+  font-size:0.95rem;
+  margin-bottom: 10px;
+}
+.big-code{
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent1));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 6px 30px rgba(0,124,240,0.2);
+  margin: 10px 0;
+}
+p{
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.btn-primary{
+  display: inline-block;
+  padding: 12px 24px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent1));
+  color:white;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  box-shadow:0 8px 30px rgba(0,124,240,0.15);
+  transition: all 0.3s ease;
+}
+.btn-primary:hover{
+  transform: translateY(-2px);
+  box-shadow:0 12px 40px rgba(0,124,240,0.3);
+}
+.shield{
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+  background:linear-gradient(180deg,#ffffff,rgba(255,255,255,0.85));
+  border:2px solid rgba(0,124,240,0.08);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="shield">
+    🛡️
+  </div>
+  <div class="kicker">Oops! Something went wrong</div>
+  <div class="big-code">404</div>
+  <p>The page you’re looking for doesn’t exist or has been moved.</p>
+  <a href="/" class="btn-primary">Go Back Home</a>
+</div>
+
+</body>
+</html>

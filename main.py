@@ -7,6 +7,7 @@ import pickle
 import string
 import os
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 app = FastAPI()
 
@@ -122,9 +123,21 @@ async def contact(request: Request):
 
 @app.get("/dataPrivacy", response_class=HTMLResponse)
 async def data_privacy(request: Request):
-    return templates.TemplateResponse("dataPrivacy.html", {"request": request})
+    return templates.TemplateResponse("dataprivacy.html", {"request": request})
 
 
 @app.get("/model", response_class=HTMLResponse)
 async def data_privacy(request: Request):
     return templates.TemplateResponse("tp.html", {"request": request})
+
+
+
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request: Request, exc: StarletteHTTPException):
+    if exc.status_code == 404:
+        return templates.TemplateResponse(
+            "404.html",  # your HTML file
+            {"request": request},
+            status_code=404
+        )
+    return await request.app.default_exception_handler(request, exc)
