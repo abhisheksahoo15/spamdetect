@@ -198,7 +198,7 @@
     }
 
     button:hover {
-      background: #024ea4;
+      background: #fcfdff;
       transform: scale(1.05);
     }
 
@@ -358,7 +358,7 @@
 
   <main>
     <form action="/predict" method="post" enctype="multipart/form-data" id="spamForm" onsubmit="return validateForm()">
-      <textarea name="text" id="text-input" placeholder="Paste your message here... or Uplod a Screenshot" rows="5">{{ message_text or '' }}</textarea>
+      <textarea name="text" id="text-input" placeholder="Paste your message here... or Uplod a Screenshot To Detect Its A Spam Or Not" rows="5">{{ message_text or '' }}</textarea>
       <label class="upload-label">Upload a screenshot (JPG/PNG):</label>
       <input type="file" name="file"  id="file-input" accept="image/*" />
       <button type="submit" style="color: white; background-color: #007bff; border: none; padding: 8px 16px; border-radius: 4px;">
